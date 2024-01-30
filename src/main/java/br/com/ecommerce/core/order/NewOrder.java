@@ -1,12 +1,12 @@
-package br.com.ecommerce.order;
+package br.com.ecommerce.core.order;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import static br.com.ecommerce.Main.ECOMMERCE_NEW_ORDER;
-import static br.com.ecommerce.Main.ECOMMERCE_SEND_EMAIL;
-import static br.com.ecommerce.config.KafkaProperties.producerProperties;
+import static br.com.ecommerce.application.service.EmailService.ECOMMERCE_SEND_EMAIL;
+import static br.com.ecommerce.application.service.FraudDetectorService.ECOMMERCE_NEW_ORDER;
+import static br.com.ecommerce.core.config.KafkaProperties.producerProperties;
 
 public class NewOrder {
 

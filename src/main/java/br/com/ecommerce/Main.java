@@ -1,28 +1,29 @@
 package br.com.ecommerce;
 
-import br.com.ecommerce.order.NewOrder;
-import br.com.ecommerce.service.EmailService;
-import br.com.ecommerce.service.FraudDetectorService;
-import br.com.ecommerce.service.LogService;
+import br.com.ecommerce.core.order.NewOrder;
+import br.com.ecommerce.infra.EntryPoint;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
-    public static final String ECOMMERCE_NEW_ORDER = "ECOMMERCE_NEW_ORDER";
-    public static final String ECOMMERCE_SEND_EMAIL = "ECOMMERCE_SEND_EMAIL";
-    public static final String ANY = "ECOMMERCE.*";
     public static final int SLEEP_TIME = 5000;
+    public static final String STOP = "c";
     public static int count = 0;
 
     public static void main(String[] args) {
 
-        var messages = List.of("01,02,03,04", "05,06,07,08", "11,12,13,14");
+        var messages = List.of(
+                "01,02,03,04",
+                "05,06,07,08",
+                "11,12,13,14",
+                "15,16,17,18"
+        );
 
-        var emailService = new EmailService();
-        var fraudDetectorService = new FraudDetectorService();
-        var logService = new LogService();
+        var entrypoint = EntryPoint.listening();
 
         messages.forEach(order -> {
             sleep();
@@ -30,9 +31,7 @@ public class Main {
             sleep();
         });
 
-        emailService.interrupt();
-        fraudDetectorService.interrupt();
-        logService.interrupt();
+        entrypoint.stop();
     }
 
     public static void sleep() {
@@ -48,7 +47,7 @@ public class Main {
         return random.nextInt(SLEEP_TIME) + 1;
     }
 
-    public static void threadStarting(Class javaClass) {
+    public static void threadStarting(Class<?> javaClass) {
         System.out.println("-----------------------------");
         System.out.println("Starting a thread ::: " + javaClass.getName());
         System.out.println("-----------------------------");

@@ -1,4 +1,4 @@
-package br.com.ecommerce.config;
+package br.com.ecommerce.core.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -9,7 +9,8 @@ import java.util.Properties;
 
 public class KafkaProperties {
     public static final String HOST = "localhost:9092";
-    public static Properties consumerProperties(Class javaClass) {
+
+    public static Properties consumerProperties(Class<?> javaClass) {
         var properties = new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, HOST);
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());

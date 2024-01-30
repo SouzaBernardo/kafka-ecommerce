@@ -1,21 +1,20 @@
-package br.com.ecommerce.service;
+package br.com.ecommerce.application.service;
 
 import br.com.ecommerce.Main;
-import br.com.ecommerce.service.contract.KafkaConsumerInterface;
+import br.com.ecommerce.application.service.contract.KafkaConsumerInterface;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Collections;
 
-import static br.com.ecommerce.Main.ECOMMERCE_NEW_ORDER;
 import static br.com.ecommerce.Main.threadStarting;
-import static br.com.ecommerce.config.KafkaProperties.consumerProperties;
+import static br.com.ecommerce.core.config.KafkaProperties.consumerProperties;
 
 public class FraudDetectorService extends Thread implements KafkaConsumerInterface {
+    public static final String ECOMMERCE_NEW_ORDER = "ECOMMERCE_NEW_ORDER";
 
     public FraudDetectorService() {
         threadStarting(FraudDetectorService.class);
-        this.start();
     }
 
     public void run() {

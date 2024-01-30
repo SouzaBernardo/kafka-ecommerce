@@ -1,17 +1,17 @@
-package br.com.ecommerce.service;
+package br.com.ecommerce.application.service;
 
-import br.com.ecommerce.service.contract.KafkaConsumerInterface;
+import br.com.ecommerce.application.service.contract.KafkaConsumerInterface;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 
-import static br.com.ecommerce.Main.ANY;
 import static br.com.ecommerce.Main.threadStarting;
-import static br.com.ecommerce.config.KafkaProperties.consumerProperties;
+import static br.com.ecommerce.core.config.KafkaProperties.consumerProperties;
 import static java.util.regex.Pattern.compile;
 
 
 public class LogService extends Thread implements KafkaConsumerInterface {
+    public static final String ANY = "ECOMMERCE.*";
 
     public LogService() {
         threadStarting(LogService.class);
@@ -42,7 +42,7 @@ public class LogService extends Thread implements KafkaConsumerInterface {
                 }
             }
         } catch (Exception ex) {
-            System.out.println("ERROR with kafka consumer");
+            System.out.println("CLOSING CONNECTION WITH KAFKA IN LOGSERVICE");
         }
     }
 }
