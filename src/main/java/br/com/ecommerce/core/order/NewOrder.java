@@ -31,10 +31,10 @@ public class NewOrder {
     private static Callback getCallback() {
         return (data, ex) -> {
             if (ex != null) {
-                System.out.println(ex.getMessage());
                 return;
             }
-            System.out.printf("%s:::%s/%s/%s%n", data.topic(), data.partition(), data.offset(), data.timestamp());
+            System.out.println("SUCCESS TO SEND MESSAGE:");
+            System.out.printf(">>> %s:::%s/%s/%s%n", data.topic(), data.partition(), data.offset(), data.timestamp());
         };
     }
 }
