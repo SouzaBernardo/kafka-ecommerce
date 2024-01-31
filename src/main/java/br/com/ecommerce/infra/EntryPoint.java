@@ -6,6 +6,7 @@ import br.com.ecommerce.application.service.LogService;
 
 public class EntryPoint {
 
+    private static final EntryPoint INSTANCE = new EntryPoint();
     private final EmailService emailService;
     private final FraudDetectorService fraudDetectorService;
     private final LogService logService;
@@ -17,11 +18,16 @@ public class EntryPoint {
     }
 
     public static EntryPoint listening() {
-        return new EntryPoint();
+        return INSTANCE;
     }
     public void stop() {
         emailService.interrupt();
         fraudDetectorService.interrupt();
         logService.interrupt();
+    }
+    public void start() {
+        emailService.start();
+        fraudDetectorService.start();
+        logService.start();
     }
 }

@@ -1,6 +1,5 @@
 package br.com.ecommerce.application.service;
 
-import br.com.ecommerce.Main;
 import br.com.ecommerce.application.service.contract.KafkaConsumerInterface;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
@@ -15,7 +14,6 @@ public class EmailService extends Thread implements KafkaConsumerInterface {
 
     public EmailService() {
         threadStarting(EmailService.class);
-        this.start();
     }
 
     public void run() {

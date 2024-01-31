@@ -15,7 +15,6 @@ public class LogService extends Thread implements KafkaConsumerInterface {
 
     public LogService() {
         threadStarting(LogService.class);
-        this.start();
     }
 
     public void run() {
