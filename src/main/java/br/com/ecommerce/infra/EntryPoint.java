@@ -17,7 +17,7 @@ public class EntryPoint {
         this.logService = new LogService();
     }
 
-    public static EntryPoint listening() {
+    public static EntryPoint getInstance() {
         return INSTANCE;
     }
     public void stop() {
