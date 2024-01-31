@@ -6,9 +6,11 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.UUID;
 
 public class KafkaProperties {
     public static final String HOST = "localhost:9092";
+    public static final String MAX_POLL_RECORDS = "1";
 
     public static Properties consumerProperties(Class<?> javaClass) {
         var properties = new Properties();
@@ -16,6 +18,8 @@ public class KafkaProperties {
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, javaClass.getName());
+        properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, javaClass.getName() + UUID.randomUUID());
+        properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, MAX_POLL_RECORDS);
         return properties;
     }
 
