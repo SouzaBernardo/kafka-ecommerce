@@ -1,45 +1,16 @@
 package br.com.ecommerce.application.service;
 
-import br.com.ecommerce.application.service.contract.KafkaConsumerInterface;
+import br.com.ecommerce.application.service.contract.AbstractKafkaConsumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import static br.com.ecommerce.Main.threadStarting;
 import static br.com.ecommerce.core.config.KafkaProperties.consumerProperties;
-import static java.time.Duration.ofMillis;
-import static java.util.Collections.singletonList;
 
 
-public class EmailService extends Thread implements KafkaConsumerInterface {
+public class EmailService extends AbstractKafkaConsumer {
     public static final String ECOMMERCE_SEND_EMAIL = "ECOMMERCE_SEND_EMAIL";
 
-    public EmailService() {
-        threadStarting(EmailService.class);
-    }
-
-    public void run() {
-        try (var consumer = new KafkaConsumer<>(consumerProperties(EmailService.class))) {
-            consumer.subscribe(singletonList(ECOMMERCE_SEND_EMAIL));
-            while (true) {
-
-                if (!this.isAlive()) {
-                    return;
-                }
-
-                var records = consumer.poll(ofMillis(100));
-                if (!records.isEmpty()) {
-                    System.out.println("Found records");
-                    records.forEach(record -> {
-                        System.out.println("-------------------------------------");
-                        System.out.println("Sending email, checking for fraud");
-                        System.out.println(record.key());
-                        System.out.println(record.value());
-                        Main.sleep();
-                        System.out.println("Email sent");
-                    });
-                }
-            }
-        } catch (Exception ex) {
-            System.out.println("ERROR with kafka consumer");
-        }
+    public void exec() {
+        var consumer = new KafkaConsumer<String, String>(consumerProperties(EmailService.class));
+        consumeRecords(consumer, ECOMMERCE_SEND_EMAIL);
     }
 }
