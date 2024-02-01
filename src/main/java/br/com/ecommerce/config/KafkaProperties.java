@@ -1,4 +1,4 @@
-package br.com.ecommerce.core.config;
+package br.com.ecommerce.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

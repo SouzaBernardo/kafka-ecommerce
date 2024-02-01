@@ -1,7 +1,7 @@
 package br.com.ecommerce;
 
-import br.com.ecommerce.core.order.NewOrder;
-import br.com.ecommerce.infra.EntryPoint;
+import br.com.ecommerce.consumers.EntryPointService;
+import br.com.ecommerce.producers.NewOrderProducer;
 
 import java.util.List;
 import java.util.Random;
@@ -19,15 +19,15 @@ public class Main {
                 "15,16,17,18"
         );
 
-        EntryPoint.getInstance().start();
+        EntryPointService.getInstance().start();
 
         messages.forEach(order -> {
             sleep();
-            NewOrder.sendMessage(order, "EMAIL VALUE");
+            NewOrderProducer.sendMessage(order, "EMAIL VALUE");
             sleep();
         });
 
-        EntryPoint.getInstance().stop();
+        EntryPointService.getInstance().stop();
     }
 
     public static void sleep() {

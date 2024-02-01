@@ -1,4 +1,4 @@
-package br.com.ecommerce.application.service.contract;
+package br.com.ecommerce.consumers.contract;
 
 import br.com.ecommerce.Main;
 import org.apache.kafka.clients.consumer.KafkaConsumer;

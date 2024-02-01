@@ -1,4 +1,4 @@
-package br.com.ecommerce.core.order;
+package br.com.ecommerce.producers;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -6,11 +6,11 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.UUID;
 
-import static br.com.ecommerce.application.service.EmailService.ECOMMERCE_SEND_EMAIL;
-import static br.com.ecommerce.application.service.FraudDetectorService.ECOMMERCE_NEW_ORDER;
-import static br.com.ecommerce.core.config.KafkaProperties.producerProperties;
+import static br.com.ecommerce.consumers.EmailConsumer.ECOMMERCE_SEND_EMAIL;
+import static br.com.ecommerce.consumers.FraudDetectorConsumer.ECOMMERCE_NEW_ORDER;
+import static br.com.ecommerce.config.KafkaProperties.producerProperties;
 
-public class NewOrder {
+public class NewOrderProducer {
 
     public static void sendMessage(String orderValue, String emailValue) {
         try (var producer = new KafkaProducer<String, String>(producerProperties())) {
