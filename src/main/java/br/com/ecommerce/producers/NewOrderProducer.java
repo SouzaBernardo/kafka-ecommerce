@@ -1,30 +1,34 @@
 package br.com.ecommerce.producers;
 
+import br.com.ecommerce.producers.contract.AbstractKafkaProducer;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import java.io.Closeable;
 import java.util.UUID;
 
-import static br.com.ecommerce.consumers.EmailConsumer.ECOMMERCE_SEND_EMAIL;
-import static br.com.ecommerce.consumers.FraudDetectorConsumer.ECOMMERCE_NEW_ORDER;
+import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_NEW_ORDER_TOPIC;
+import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_SEND_EMAIL_TOPIC;
 import static br.com.ecommerce.config.KafkaProperties.producerProperties;
 
-public class NewOrderProducer {
+public class NewOrderProducer extends AbstractKafkaProducer {
 
-    public static void sendMessage(String orderValue, String emailValue) {
-        try (var producer = new KafkaProducer<String, String>(producerProperties())) {
-            var callback = getCallback();
-            var id = UUID.randomUUID().toString();
-            var orderRecord = new ProducerRecord<>(ECOMMERCE_NEW_ORDER, orderValue + id, orderValue);
-            var emailRecord = new ProducerRecord<>(ECOMMERCE_SEND_EMAIL, emailValue + id, emailValue);
+    public NewOrderProducer() {
+        super(new KafkaProducer<>(producerProperties()));
+    }
 
-            try {
-                producer.send(orderRecord, callback).get();
-                producer.send(emailRecord, callback).get();
-            } catch (Exception e) {
-                System.out.println("ERROR on SEND Message >>>> " + e.getMessage());
-            }
+    public void send(String orderValue, String emailValue) {
+        var callback = getCallback();
+        var id = UUID.randomUUID().toString();
+        var orderRecord = new ProducerRecord<>(ECOMMERCE_NEW_ORDER_TOPIC, orderValue + id, orderValue);
+        var emailRecord = new ProducerRecord<>(ECOMMERCE_SEND_EMAIL_TOPIC, emailValue + id, emailValue);
+
+        try {
+            producer.send(orderRecord, callback).get();
+            producer.send(emailRecord, callback).get();
+        } catch (Exception e) {
+            System.out.println("ERROR on SEND Message >>>> " + e.getMessage());
         }
     }
 

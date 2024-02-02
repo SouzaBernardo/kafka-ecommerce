@@ -20,10 +20,10 @@ public class Main {
         );
 
         EntryPointService.getInstance().start();
-
+        var newOrderProducer = new NewOrderProducer();
         messages.forEach(order -> {
             sleep();
-            NewOrderProducer.sendMessage(order, "EMAIL VALUE");
+            newOrderProducer.send(order, "EMAIL VALUE");
             sleep();
         });
 
