@@ -3,10 +3,20 @@ package br.com.ecommerce.consumers.contract;
 import br.com.ecommerce.Main;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import java.io.Closeable;
+
 import static java.time.Duration.ofMinutes;
 import static java.util.regex.Pattern.compile;
 
-public abstract class AbstractKafkaConsumer extends Thread implements KafkaConsumerInterface {
+public abstract class AbstractKafkaConsumer extends Thread implements KafkaConsumerInterface, Closeable {
+
+    private final KafkaConsumer<String, String> consumer;
+    private final String topic;
+
+    protected AbstractKafkaConsumer(KafkaConsumer<String, String> consumer, String topic) {
+        this.consumer = consumer;
+        this.topic = topic;
+    }
 
     public abstract void exec();
     public void run() {
@@ -17,7 +27,7 @@ public abstract class AbstractKafkaConsumer extends Thread implements KafkaConsu
         }
     }
 
-    protected void consumeRecords(KafkaConsumer<String, String> consumer, String topic) {
+    protected void consumeRecords() {
         consumer.subscribe(compile(topic));
         while (this.isAlive()) {
             var records = consumer.poll(ofMinutes(10));
@@ -45,5 +55,10 @@ public abstract class AbstractKafkaConsumer extends Thread implements KafkaConsu
         System.out.println("Interrupt a thread ::: " + this.getClass().getSimpleName());
         System.out.println("-----------------------------");
         super.interrupt();
+    }
+
+    @Override
+    public void close() {
+        this.consumer.close();
     }
 }

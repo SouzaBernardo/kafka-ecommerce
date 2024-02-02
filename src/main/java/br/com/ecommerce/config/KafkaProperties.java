@@ -11,6 +11,10 @@ import java.util.UUID;
 public class KafkaProperties {
     public static final String HOST = "localhost:9092";
     public static final String MAX_POLL_RECORDS = "1";
+    public static final String ECOMMERCE_SEND_EMAIL_TOPIC = "ECOMMERCE_SEND_EMAIL";
+    public static final String ECOMMERCE_NEW_ORDER_TOPIC = "ECOMMERCE_NEW_ORDER";
+    public static final String ANY_ECOMMERCE_TOPIC = "ECOMMERCE.*";
+
 
     public static Properties consumerProperties(Class<?> javaClass) {
         var properties = new Properties();

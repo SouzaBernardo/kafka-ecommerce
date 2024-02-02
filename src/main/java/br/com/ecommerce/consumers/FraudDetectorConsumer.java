@@ -4,15 +4,18 @@ import br.com.ecommerce.Main;
 import br.com.ecommerce.consumers.contract.AbstractKafkaConsumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_NEW_ORDER_TOPIC;
 import static br.com.ecommerce.config.KafkaProperties.consumerProperties;
 
 public class FraudDetectorConsumer extends AbstractKafkaConsumer {
-    public static final String ECOMMERCE_NEW_ORDER = "ECOMMERCE_NEW_ORDER";
+
+    protected FraudDetectorConsumer() {
+        super(new KafkaConsumer<>(consumerProperties(FraudDetectorConsumer.class)), ECOMMERCE_NEW_ORDER_TOPIC);
+    }
 
     public void exec() {
-        var consumer = new KafkaConsumer<String, String>(consumerProperties(FraudDetectorConsumer.class));
         Main.sleep();
         Main.sleep();
-        consumeRecords(consumer, ECOMMERCE_NEW_ORDER);
+        consumeRecords();
     }
 }
