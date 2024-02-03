@@ -1,10 +1,14 @@
 package br.com.ecommerce;
 
 import br.com.ecommerce.consumers.EntryPointService;
+import br.com.ecommerce.domain.Order;
+import br.com.ecommerce.producers.EmailProducer;
 import br.com.ecommerce.producers.NewOrderProducer;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class Main {
 
@@ -21,9 +25,15 @@ public class Main {
 
         EntryPointService.getInstance().start();
         var newOrderProducer = new NewOrderProducer();
+        var emailProducer = new EmailProducer();
         messages.forEach(order -> {
             sleep();
-            newOrderProducer.send(order, "EMAIL VALUE");
+            var userId = UUID.randomUUID().toString();
+            var orderId = UUID.randomUUID().toString();
+            var amount = BigDecimal.valueOf(Math.random() * 500 + 1);
+            var order1 = new Order(userId, orderId, amount);
+            newOrderProducer.send(order, order1);
+            emailProducer.send(order, "[ SEND EMAIL FROM " + order + " ]");
             sleep();
         });
 
