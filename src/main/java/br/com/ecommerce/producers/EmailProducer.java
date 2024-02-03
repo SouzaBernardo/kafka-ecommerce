@@ -1,23 +1,22 @@
 package br.com.ecommerce.producers;
 
-import br.com.ecommerce.domain.Order;
 import br.com.ecommerce.producers.contract.AbstractKafkaProducer;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_NEW_ORDER_TOPIC;
+import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_SEND_EMAIL_TOPIC;
 import static br.com.ecommerce.config.KafkaProperties.producerProperties;
 
-public class NewOrderProducer extends AbstractKafkaProducer<Order> {
+public class EmailProducer extends AbstractKafkaProducer<String> {
 
-    public NewOrderProducer() {
-        super(new KafkaProducer<>(producerProperties()), ECOMMERCE_NEW_ORDER_TOPIC);
+    public EmailProducer() {
+        super(new KafkaProducer<>(producerProperties()), ECOMMERCE_SEND_EMAIL_TOPIC);
     }
 
-    public void send(String orderId, Order order) {
+    public void send(String emailId, String email) {
         var callback = getCallback();
-        var orderRecord = new ProducerRecord<>(topic, orderId, order);
+        var orderRecord = new ProducerRecord<>(topic, emailId, email);
         try {
             producer.send(orderRecord, callback).get();
         } catch (Exception e) {

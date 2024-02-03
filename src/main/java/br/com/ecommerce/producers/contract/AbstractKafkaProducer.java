@@ -4,15 +4,17 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 
 import java.io.Closeable;
 
-public abstract class AbstractKafkaProducer implements KafkaProducerInterface, Closeable {
+public abstract class AbstractKafkaProducer<T> implements KafkaProducerInterface<T>, Closeable {
 
-     protected final KafkaProducer<String, String> producer;
+     protected final KafkaProducer<String, T> producer;
+     protected final String topic;
 
-     protected AbstractKafkaProducer(KafkaProducer<String, String> producer) {
+     protected AbstractKafkaProducer(KafkaProducer<String, T> producer, String topic) {
           this.producer = producer;
+          this.topic = topic;
      }
 
-     public abstract void send(String key, String value);
+     public abstract void send(String key, T value);
 
      @Override
      public void close() {

@@ -1,6 +1,6 @@
 package br.com.ecommerce.producers.contract;
 
-public interface KafkaProducerInterface {
+public interface KafkaProducerInterface<T> {
 
-    void send(String key, String value);
+    void send(String key, T value);
 }
