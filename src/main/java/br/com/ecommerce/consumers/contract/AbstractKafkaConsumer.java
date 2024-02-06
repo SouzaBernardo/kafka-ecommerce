@@ -8,12 +8,12 @@ import java.io.Closeable;
 import static java.time.Duration.ofMinutes;
 import static java.util.regex.Pattern.compile;
 
-public abstract class AbstractKafkaConsumer extends Thread implements KafkaConsumerInterface, Closeable {
+public abstract class AbstractKafkaConsumer<T> extends Thread implements KafkaConsumerInterface, Closeable {
 
-    private final KafkaConsumer<String, String> consumer;
+    private final KafkaConsumer<String, T> consumer;
     private final String topic;
 
-    protected AbstractKafkaConsumer(KafkaConsumer<String, String> consumer, String topic) {
+    protected AbstractKafkaConsumer(KafkaConsumer<String, T> consumer, String topic) {
         this.consumer = consumer;
         this.topic = topic;
     }
