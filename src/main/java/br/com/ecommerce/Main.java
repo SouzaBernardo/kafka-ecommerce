@@ -1,6 +1,7 @@
 package br.com.ecommerce;
 
 import br.com.ecommerce.consumers.EntryPointService;
+import br.com.ecommerce.domain.Email;
 import br.com.ecommerce.domain.Order;
 import br.com.ecommerce.producers.EmailProducer;
 import br.com.ecommerce.producers.NewOrderProducer;
@@ -32,8 +33,9 @@ public class Main {
             var orderId = UUID.randomUUID().toString();
             var amount = BigDecimal.valueOf(Math.random() * 500 + 1);
             var order1 = new Order(userId, orderId, amount);
+            var email = new Email(userId, "[ SEND EMAIL FROM " + order + " ]");
             newOrderProducer.send(order, order1);
-            emailProducer.send(order, "[ SEND EMAIL FROM " + order + " ]");
+            emailProducer.send(userId, email);
             sleep();
         });
 

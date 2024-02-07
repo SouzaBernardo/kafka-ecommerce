@@ -1,5 +1,6 @@
 package br.com.ecommerce.producers;
 
+import br.com.ecommerce.domain.Email;
 import br.com.ecommerce.producers.contract.AbstractKafkaProducer;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -8,13 +9,13 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import static br.com.ecommerce.config.KafkaProperties.ECOMMERCE_SEND_EMAIL_TOPIC;
 import static br.com.ecommerce.config.KafkaProperties.producerProperties;
 
-public class EmailProducer extends AbstractKafkaProducer<String> {
+public class EmailProducer extends AbstractKafkaProducer<Email> {
 
     public EmailProducer() {
         super(new KafkaProducer<>(producerProperties()), ECOMMERCE_SEND_EMAIL_TOPIC);
     }
 
-    public void send(String emailId, String email) {
+    public void send(String emailId, Email email) {
         var callback = getCallback();
         var orderRecord = new ProducerRecord<>(topic, emailId, email);
         try {
